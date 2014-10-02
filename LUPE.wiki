@@ -16,7 +16,7 @@ Even though LUPE is reasonably self-contained and covers what is most immediatel
 
 ==Basics==
 
-Open a terminal (by launching the Terminal app). Play some commands and constructs of the Shell environment language:
+Open a terminal (by launching the Terminal app). Play some commands and constructs of the Shell (sh) environment language:
 
 List files in the current directory/foder:
 
@@ -65,7 +65,7 @@ The UPE book masterfully explains why you should prefer that over (try it)
 
 You'll understand what the pipe `|' means later, but it basically connects the default output of a program to the standard input of another.
 
-=== Command History ===
+===Command History===
 
  history
 
@@ -184,6 +184,9 @@ More useful commands are available at [[Utils|Utils-Macambira]].
 ==Setting up the modern unix programming environment==
 
 ===Useful script collections===
+
+
+====Our Utilitiess====
 Our personal scripts in current use and actual config files used for editing,
 programming, and daily use is available at [[Utils|Utils-Macambira]].
 
@@ -210,13 +213,102 @@ The <tt>.bash_profile</tt> shell script is meant to be executed once per work se
 The <tt>.bashrc</tt> script is executed during each new shell that is started, as when typing <tt>bash</tt> at the prompt. The <tt>.bash_aliases</tt> shell script is executed by a suitably configured <tt>.bashrc</tt> and by convention contains only alias/shortcut definitions. For instance, 
  alias fox="firefox"              # you can now just type fox to start firefox
 
-What should you put in <tt>~/.bashrc</tt> and <tt>~/.bash_profile</tt>?  You should take a look at the existing ones in your system. The ones I actually use are available at [[Utils]]:
-
+What should you put in <tt>~/.bashrc</tt> and <tt>~/.bash_profile</tt>?  You
+should take a look at the existing ones in your system, and copy from more
+experienced friends. The ones I actually use on a daily basis are available at
+[[Utils]].
  
+====~/bin====
+Create your own <tt>~/bin</tt> folder to install the personal scripts that you'll be using often:
+ mkdir ~/bin
 
-===A collection useful snippets===
+Move the desired script, say <tt>myscript</tt>, there:
+ mv myscript ~/bin
 
-See also 
+Now change permissions to execute
+ chmod a+x ~/bin/myscript
+
+Set the path in your ~/.bash_profile
+ export PATH=$HOME/bin:$PATH
+
+Reload the environment for changes to take effect
+ bash -ls                 # start as login shell, reloading .profile
+                    # XOR
+ . ~/.bash_profile
+
+You can now run your script without the <tt>./</tt>:
+ myscript
+
+You should use the <tt>cx</tt> shortcut given in UPE for making things more simple.
+ cx ~/bin/myscript
+
+You can get our actual working versions of <tt>cx</tt> and other utilities suggested by UPE at
+[[Utils]] (''do'' peek at the source code!).
+
+==Understanding the Bourne Shell==
+Think about the internal C implementation model for commands. The commands's <tt>main()</tt> function sees its arguments through <tt>argv</tt> - the entire argument line broken into a number of strings. It is the shell that breaks the entire command string as in
+  "echo hello, world"      --- sh --->      "echo" "hello," "world"
+into distinct components.  Understanding this process is key to understanding how the shell works,
+specially how to use the different quotes `'" and the escape character '\' .
+
+The program <tt>echo</tt> can only see two distict "hello" and "world" strings
+in its <tt>argv</tt> for the above example. For it to see "hello world" as a unit,
+quotes can be employed:
+ echo "hello, world"
+
+The behavior looks identical to that of the
+original unquoted command, but you can be sure that the actual echo program is
+now seeing <tt>hello world</tt> as a ''single'' entity. For instance, 
+to print a file that has spaces in the filename, you can do
+ cat "unix programming.txt"
+                                  #OR
+ cat 'unix programming.txt'
+
+You can also escape the space, since the shell breaks the argument at blanks.
+
+ cat unix\ programming.txt
+
+What's the difference?
+* <b>'</b>: the strongest quote, preventing the shell to parse, expand, modify nor split whats inside
+* <b>"</b>: allows the shell to expand expressions inside before generating the single, final string 
+* <b>\</b>: not as convenient and is not guaranteed to generate a single final string, e.g. if shell expansions expand to space
+
+These shell expansions are most used with variables. Lets test this behavior:
+ a="power nix"                        # single quotes ' could be used
+ echo "hello, $a world"
+ echo 'hello, $a world'
+ echo hello,\ $a\ world               # test: what is argc here?
+
+This illustrates $a which expands the variable a - you can think of <tt>$</tt> as an S for "substitute in here the contents of what follows".
+
+And what is that weird backward <tt>`</tt> quote for? ''It executes the string that is inside as a shell command and stores the ouput as a single string''. You can think of it as "the output of", and it is extremely useful. Try it out:
+  seq 1 10
+  numbers=`seq 1 10`
+  echo $numbers         # numbers == "1 2 3 4 5 6 7 8 9 10"
+  numbers="seq 1 10"    # numbers == "seq 1 10"   literally
+  echo $numbers
+
+Let us take a look at one of the commands in the intro section to print hello world, say, 3 times, written more nicely:
+<syntaxhighlight lang="bash">
+ for i in `seq 1 3`; do 
+    echo hello, world
+ done 
+</syntaxhighlight>
+The <tt>for</tt> loop simply loops the variable <tt>i</tt> over each token obtained by the shell when parsing the string after <tt>in</tt>. For instance, 
+<syntaxhighlight lang="bash">
+ for i in a b c; do              # or for i in 1 2 3   etc
+    echo hello, world
+ done 
+</syntaxhighlight>
+Would print hello, world 3 times, We're plugging in an independent command, <tt>seq</tt>, in order to generate the for loop string. By itself, 
+ seq 1 3
+simply prints 1 to 3. We can use seq's output as a string by enclosing it in back quotes:
+ mystring=`seq 1 4`
+                                 #OR
+ mystring=$(seq 1 4) 
+ echo $mystring
+Since we know that the shell will break this string at blanks, in case its content were used as part of a commandline. Thus, we just give it to the for loop. 
+
 
 
 ==Links==
