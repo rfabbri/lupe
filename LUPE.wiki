@@ -1,1 +1,23 @@
-== Learning the Unix Programming Enviromnent ==
+<!-- Learning The Unix Programming Environment -->
+
+This is a series of practical tutorials on Unix - mainly Linux and OSX - in the context of modern programming practice. It is an up-to-date learning supplement to the great [[LRE#|UPE]] book, "The Unix Programming Environment" by Kernighan and Ritchie. In addition to summarizing the outstanding classic and adapting it for current environments, LUPE also gathers a number of valuable practical tips and pointers from experienced programmers.
+
+== First order of business: read UPE ==
+
+Even though LUPE is reasonably self-contained and covers what is most immediately useful to you, reading the original masterpiece - UPE - is highly recommended. Specially the exercises. Reading UPE is ''the'' top way of learning Unix at a level most useful to programmers. Reding it will be the single thing that ''really'' makes you understand the tools, the idiosyncratic syntax, and why Unix's highly programmable interface works they way it does. Really understanding the practical tools and the power user side of the OS is what makes a highly efficent programmer and user. With the LUPE supplements you'll leverage that powerful knowledge into the broader context of today's practice of programming and advanced usage.
+
+
+== Background ==
+
+
+==> Begin_==
+
+
+==> Links_==
+
+* [[Lista_de_Comandos_Básicos_GNU/Linux]]
+
+
+
+
+[[Category:Lab Macambira]] [[Category:Linux]]
