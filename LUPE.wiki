@@ -8,7 +8,7 @@ This is a series of practical tutorials on Unix - mainly GNU/Linux and OSX - in 
 
 == First: read UPE ==
 
-Even though LUPE is reasonably self-contained and covers what is most immediately useful to you, reading the original masterpiece - UPE - is highly recommended. Specially the exercises. Reading UPE is ''the'' top way of learning Unix at a level most useful to programmers. Reding it will be the single thing that ''really'' makes you understand the tools, the idiosyncratic syntax, and why Unix's highly programmable interface works they way it does. Really understanding the practical tools and the power user side of the OS is what makes a highly efficent programmer and user. With the LUPE supplements you'll leverage that powerful knowledge into the broader context of today's practice of programming and advanced usage.
+Even though LUPE is reasonably self-contained and covers what is most immediately useful to you, reading the original masterpiece - UPE - is highly recommended. Specially the exercises. Reading UPE is ''the'' top way of learning Unix at a level most useful to programmers. Raeding it will be the single thing that ''really'' makes you understand the tools, the idiosyncratic syntax, and why Unix's highly programmable interface works the way it does. Really understanding the practical tools and the power user side of the OS is what makes a highly efficent programmer and user. With the LUPE supplements you'll leverage that powerful knowledge into the broader context of today's practice of programming and advanced usage.
 
 
 ==Background==
@@ -29,7 +29,9 @@ A common shortcut for ls is d, though it is not always available. Try it anyways
 In the aliases section we'll set this useful shortcut up in case you don't have it by default.
 
 Also try these
+ ls -a                                 # "all" - shows entries starting with '.', usually hidden
  ls -l
+ ls -la
 
 For which a useful short is
  ll
@@ -40,12 +42,11 @@ Tell the computer to print "Hello, World":
  echo hello, world
 
 Then tell it to print this 10 times using a for loop in the bash language (just type it for now - we'll help you understand the syntax idiosyncrasies later):
- for i in `seq 1 10`; do echo hello, world; done
+ for i in `seq 1 10`; do echo hello, world; done 
 
-Each command is an executable program, which is usually written in C or can be internally modeled with C's abstraction. As in C, each command has a return value and default/standard input and output handles (stdout/stdin). 
+Each Unix command is an executable program, which is usually written in C or can be internally modeled with C's abstraction. As in C, each command has a return value and default/standard input and output handles (stdout/stdin).
 
-The input and output can be redirected
-
+The standard input and output can be redirected.  
 Create a text file containing hello, world using the redirect operator
 
  echo hello, world > a.txt
@@ -62,7 +63,7 @@ Count the number of words in the file
 The UPE book masterfully explains why you should prefer that over (try it)
  cat a.txt | wc -l 
 
-You'll understand what the pipe `|' means later, but it basically connects the standard output of a program to the standard input of another.
+You'll understand what the pipe `|' means later, but it basically connects the default output of a program to the standard input of another.
 
 === Command History ===
 
@@ -126,6 +127,96 @@ If you want the C function, you can skip shell commands by using
 To search where a given keyword, eg <tt>exec</tt>, appears in all the manuals
  apropos exec
 
+
+===Scripting===
+The shell is a full-fledged programming language which derives its power from
+being able to very easily control and combine commands to work together inside
+the OS environment. You can combine the above commands into a ''shell script''
+using any text editor. Or you can just type
+ 
+ echo 'ls | wc -l
+       echo thats the number of files in the current folder.' > script.sh
+
+Check whats inside the script.sh file
+  cat script.sh
+
+Run the command
+  sh script.sh
+
+Usually you won't edit using echo, but using more convenient editors.
+There are even variables you can use. Lets say we put the following into <tt>script.sh</tt>
+<syntaxhighlight lang="bash">
+ #!/bin/sh
+ num_files=`ls | wc -l`
+ echo $num_files is the number of files in the current folder.
+</syntaxhighlight>
+  
+You can also make it executable and even remove the extension so it becomes more like a command itself.
+ mv script.sh script
+ chmod a+x script
+ ./script
+
+===More useful and fun stuff to try and understand later===
+
+Warning: The following commands may require the appropriate software packages to be installed to your system.  
+<syntaxhighlight lang="bash">
+# Convert images
+ convert image.png image.jpg
+
+# Convert all images to a PDF
+ convert *.jpg document.pdf
+
+# Play videos
+ mplayer movie.mkv
+
+# Extract pages from a pdf
+ pdftk old.pdf cat 1-9 26-end output new.pdf
+ 
+# Extract all frames of a video
+ mplayer video.mp4 -vo png -frames 5
+ 
+# Make a GIF animation from images
+ convert  -adjoin  -loop 0  -delay 5  *.gif  animation.gif
+</syntaxhighlight>
+More useful commands are available at [[Utils|Utils-Macambira]].
+
+
+==Setting up the modern unix programming environment==
+
+===Useful script collections===
+Our personal scripts in current use and actual config files used for editing,
+programming, and daily use is available at [[Utils|Utils-Macambira]].
+
+
+====Funcoeszz====
+A nifty collection of little shell utilities, having a portuguese slant to them.
+They can be found at [http://funcoeszz.net funcoeszz.net]. I personally use:
+* <tt>zzarrumanome</tt> - convert file names to lowercase and spaces to underscore, useful for shell scripting
+ zzarrumanome *
+   RAMONES - I Don't Care.mp3 -> ramones-i_dont_care.mp3
+   Toy Dolls - Wakey, Wakey!.mp3 -> toy_dolls-wakey_wakey.mp3
+* 
+* <tt>zztradutor<tt>
+ zztradutor pt-de livro                # Buch
+
+
+===Configuring Bash for Programming===
+
+The following are most useful BASH configuration files
+  ~/.bashrc
+  ~/.bash_profile
+  ~/.bash_aliases
+The <tt>.bash_profile</tt> shell script is meant to be executed once per work session - upon your login to the system or upon starting a login shell as in <tt>bash -ls</tt>.
+The <tt>.bashrc</tt> script is executed during each new shell that is started, as when typing <tt>bash</tt> at the prompt. The <tt>.bash_aliases</tt> shell script is executed by a suitably configured <tt>.bashrc</tt> and by convention contains only alias/shortcut definitions. For instance, 
+ alias fox="firefox"              # you can now just type fox to start firefox
+
+What should you put in <tt>~/.bashrc</tt> and <tt>~/.bash_profile</tt>?  You should take a look at the existing ones in your system. The ones I actually use are available at [[Utils]]:
+
+ 
+
+===A collection useful snippets===
+
+See also 
 
 
 ==Links==
