@@ -29,9 +29,11 @@ A common shortcut for ls is d, though it is not always available. Try it anyways
 In the aliases section we'll set this useful shortcut up in case you don't have it by default.
 
 Also try these
+<syntaxhighlight lang="bash">
  ls -a                                 # "all" - shows entries starting with '.', usually hidden
  ls -l
  ls -la
+</syntaxhighlight>
 
 For which a useful short is
  ll
@@ -42,26 +44,34 @@ Tell the computer to print "Hello, World":
  echo hello, world
 
 Then tell it to print this 10 times using a for loop in the bash language (just type it for now - we'll help you understand the syntax idiosyncrasies later):
+<syntaxhighlight lang="bash">
  for i in `seq 1 10`; do echo hello, world; done 
+</syntaxhighlight>
 
 Each Unix command is an executable program, which is usually written in C or can be internally modeled with C's abstraction. As in C, each command has a return value and default/standard input and output handles (stdout/stdin).
 
 The standard input and output can be redirected.  
 Create a text file containing hello, world using the redirect operator
 
- echo hello, world > a.txt
+<syntaxhighlight lang="bash">
+echo hello, world > a.txt
+</syntaxhighlight>
 
 Print out the contents of the file
  cat a.txt
 
 You can use the redirect operator on any command construct that has an output, even on the for construct above:
+<syntaxhighlight lang="bash">
  for i in `seq 1 10`; do echo hello, world; done > a.txt
+</syntaxhighlight>
 
 Count the number of words in the file
  wc -l a.txt
 
 The UPE book masterfully explains why you should prefer that over (try it)
+<syntaxhighlight lang="bash">
  cat a.txt | wc -l 
+</syntaxhighlight>
 
 You'll understand what the pipe `|' means later, but it basically connects the default output of a program to the standard input of another.
 
@@ -80,8 +90,10 @@ Lets say you're trying to reverse search the above for statement. You can do thi
 # press Enter to execute it, or keep pressing Control-R to search for other options
 
 You can also refer to the previous command's 3rd argument on your current command:
+<syntaxhighlight lang="bash">
  wc -l a.txt
  cat !!:2
+</syntaxhighlight>
 
 Your history is located in your home directory, which can be referred to by <tt>'~'</tt>
  cat ~/.history
@@ -95,14 +107,18 @@ Other commands that are not blocking the shell can be ended using <tt>kill</tt> 
  killall firefox
 
 Or kill, which requires a process ID associated to a running app:
+<syntaxhighlight lang="bash">
  ps -A|grep firefox
     553
 
  kill 553
+</syntaxhighlight>
 
 If it doesnt go away, use -9 or -KILL
+<syntaxhighlight lang="bash">
  killall -9 firefox
  kill -KILL 553
+</syntaxhighlight>
 
 A reference to any single command is provided by <tt>man</tt>:
  man bc
@@ -134,8 +150,10 @@ being able to very easily control and combine commands to work together inside
 the OS environment. You can combine the above commands into a ''shell script''
 using any text editor. Or you can just type
  
+<syntaxhighlight lang="bash">
  echo 'ls | wc -l
        echo thats the number of files in the current folder.' > script.sh
+</syntaxhighlight>
 
 Check whats inside the script.sh file
   cat script.sh
@@ -152,9 +170,11 @@ There are even variables you can use. Lets say we put the following into <tt>scr
 </syntaxhighlight>
   
 You can also make it executable and even remove the extension so it becomes more like a command itself.
+<syntaxhighlight lang="bash">
  mv script.sh script
  chmod a+x script
  ./script
+</syntaxhighlight>
 
 ===More useful and fun stuff to try and understand later===
 
@@ -196,11 +216,12 @@ A nifty collection of little shell utilities, having a portuguese slant to them.
 They can be found at [http://funcoeszz.net funcoeszz.net]. I personally use:
 * <tt>zzarrumanome</tt> - convert file names to lowercase and spaces to underscore, useful for shell scripting
  zzarrumanome *
-   RAMONES - I Don't Care.mp3 -> ramones-i_dont_care.mp3
-   Toy Dolls - Wakey, Wakey!.mp3 -> toy_dolls-wakey_wakey.mp3
-* 
+      RAMONES - I Don't Care.mp3 -> ramones-i_dont_care.mp3
+      Toy Dolls - Wakey, Wakey!.mp3 -> toy_dolls-wakey_wakey.mp3
 * <tt>zztradutor<tt>
+<syntaxhighlight lang="bash">
  zztradutor pt-de livro                # Buch
+</syntaxhighlight>
 
 
 ===Configuring Bash for Programming===
@@ -229,12 +250,16 @@ Now change permissions to execute
  chmod a+x ~/bin/myscript
 
 Set the path in your ~/.bash_profile
+<syntaxhighlight lang="bash">
  export PATH=$HOME/bin:$PATH
+</syntaxhighlight>
 
 Reload the environment for changes to take effect
- bash -ls                 # start as login shell, reloading .profile
-                    # XOR
+<syntaxhighlight lang="bash">
+ bash -ls          # start as login shell, reloading .profile
+                     # XOR
  . ~/.bash_profile
+</syntaxhighlight>
 
 You can now run your script without the <tt>./</tt>:
  myscript
@@ -260,9 +285,11 @@ The behavior looks identical to that of the
 original unquoted command, but you can be sure that the actual echo program is
 now seeing <tt>hello world</tt> as a ''single'' entity. For instance, 
 to print a file that has spaces in the filename, you can do
+<syntaxhighlight lang="bash">
  cat "unix programming.txt"
                                   #OR
  cat 'unix programming.txt'
+</syntaxhighlight>
 
 You can also escape the space, since the shell breaks the argument at blanks.
 
@@ -274,19 +301,23 @@ What's the difference?
 * <b>\</b>: not as convenient and is not guaranteed to generate a single final string, e.g. if shell expansions expand to space
 
 These shell expansions are most used with variables. Lets test this behavior:
+<syntaxhighlight lang="bash">
  a="power nix"                        # single quotes ' could be used
  echo "hello, $a world"
  echo 'hello, $a world'
  echo hello,\ $a\ world               # test: what is argc here?
+</syntaxhighlight>
 
 This illustrates $a which expands the variable a - you can think of <tt>$</tt> as an S for "substitute in here the contents of what follows".
 
 And what is that weird backward <tt>`</tt> quote for? ''It executes the string that is inside as a shell command and stores the ouput as a single string''. You can think of it as "the output of", and it is extremely useful. Try it out:
+<syntaxhighlight lang="bash">
   seq 1 10
   numbers=`seq 1 10`
   echo $numbers         # numbers == "1 2 3 4 5 6 7 8 9 10"
   numbers="seq 1 10"    # numbers == "seq 1 10"   literally
   echo $numbers
+</syntaxhighlight>
 
 Let us take a look at one of the commands in the intro section to print hello world, say, 3 times, written more nicely:
 <syntaxhighlight lang="bash">
@@ -303,17 +334,19 @@ The <tt>for</tt> loop simply loops the variable <tt>i</tt> over each token obtai
 Would print hello, world 3 times, We're plugging in an independent command, <tt>seq</tt>, in order to generate the for loop string. By itself, 
  seq 1 3
 simply prints 1 to 3. We can use seq's output as a string by enclosing it in back quotes:
+<syntaxhighlight lang="bash">
  mystring=`seq 1 4`
                                  #OR
  mystring=$(seq 1 4) 
  echo $mystring
+</syntaxhighlight>
 Since we know that the shell will break this string at blanks, in case its content were used as part of a commandline. Thus, we just give it to the for loop. 
 
 
 
 ==Links==
 
-* [[Lista_de_Comandos_Básicos_GNU/Linux]]
+* [[Lista de Comandos Básicos GNU/Linux]]
 
 
 
