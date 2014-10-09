@@ -344,18 +344,22 @@ simply prints 1 to 3. We can use seq's output as a string by enclosing it in bac
 </syntaxhighlight>
 Since we know that the shell will break this string at blanks, in case its content were used as part of a commandline. Thus, we just give it to the for loop. 
 
-
 ==Processes and Jobs==
 
 Running a program interactively normally blocks further input
+<syntaxhighlight lang="bash">
  command
- # input is blocked
+        # input is blocked
+</syntaxhighlight>
+
 Type <tt>Control-C</tt> to stop the process in case it is still running.
 If the process is waiting for input, type <tt>Control-D</tt> to signal end of
 input (end of file) and exit.
 
 Run a command in the background ("in parallel")
+<syntaxhighlight lang="bash">
  command &                       # the ampersand & is like "run command and (&) whatever I type next"
+</syntaxhighlight>
 
 Bring it back to foreground
  fg
@@ -405,7 +409,10 @@ Force kill
 Wait for all jobs to finish
  wait
 
-Keep running program on the computer even after you log out:
+Run an app with low priority
+ nice firefox &
+
+'''Keep running program on the computer even after you log out:'''
 <syntaxhighlight lang="bash">
  nohup command &
                         #OR
@@ -416,6 +423,54 @@ When you log back in (say, via ssh), there will be a file called
 <tt>nohup.out</tt> with the output of the process.
 
 You can also use GNU screen for persistent terminal sessions.
+
+== Finding stuff ==
+
+=== Basics / Overview / Practicalities ===
+There are ways to search for a file with a specific name,
+or a file having a specific content.  We will be dealing with the latter mostly for text files.
+Lets take a look at some useful commands and try to understand them.
+
+'''Case 1:''' search for a file <tt>myfilename</tt> with a specific name.
+<syntaxhighlight lang="bash">
+ find . -name myfilename
+                           #OR
+ locate myfilename
+</syntaxhighlight>
+<small>
+The <tt>locate</tt> version simply uses indexed seach which is faster than a find. To index your hard drive for locate, you usualy perform the following command:
+<syntaxhighlight lang="bash">
+  updatedb &
+</syntaxhighlight>
+or something similar, depending on the specific OS. We'll be dealing mostly with GNU locate, which is more feature-rich (albeit a bit slower) than BSD locate.
+</small>
+You can use pattern matching (explained in the next section) to search for substrings of the name, etc.
+While <tt>find</tt> normally uses file regex or wildcards, <tt>locate</tt> is easy to use with full regular expression matching (see next section). 
+<syntaxhighlight lang="bash">
+ find . -iname '*widget*.java'                  # -iname means case insensitive
+
+ # Alternative form using locate
+ locate -ri 'widget.*\.java$'                   # you'll understand the weird .* and $ later
+
+ # Search for everything
+ locate -ri 'jddl.*/widget.*\.java$' 
+
+ # Search only in a folder having your username as a substring
+ locate -ri 'username.*/.*widget.*java$'       
+</syntaxhighlight>
+
+
+'''Case 2:''' search for a file containing a specific string <tt>UpDirection</tt>
+<syntaxhighlight lang="bash">
+ # Find all .cpp files containing the string UpDir inside them (and not a superstring like UpDirection)
+ find . -name '*.cpp' | xargs grep '\<UpDirection\>'
+
+ # Alternative form using locate
+ locate -r '\.cpp$' | xargs grep '\<UpDirection\>'
+</syntaxhighlight>
+
+
+===grep, sed, awk, regular expressions===
 
 ==Networking==
 
@@ -489,7 +544,9 @@ Test it by communicatibg between two machines: machine 1 (eg, the one where you 
 
 Discover other hosts on your LAN 
 
+<syntaxhighlight lang="bash">
  ping -b 10.0.0.0             # broadcast Ping on your local network address
+</syntaxhighlight>
 
 ==Links==
 
