@@ -469,7 +469,7 @@ While <tt>find</tt> normally uses file regex or wildcards, <tt>locate</tt> is ea
  locate -r '\.cpp$' | xargs grep '\<UpDirection\>'
 </syntaxhighlight>
 
-I use an lsc script with all that inside
+I use an lsc script from [[Utils]] which includes all the above inside it
 <syntaxhighlight lang="bash">
  lsc -r                 # lists all source files recursively (*.c *.java *.cxx *.cpp *.php..)
  lsc -r | grep scilab | xargs grep --color '\<k\>'       # lists all source files with
@@ -483,9 +483,7 @@ You can also set it by default by including the following in your <tt>~/.bashrc<
 </syntaxhighlight>
 More about <tt>grep</tt> in the following subsection.
 
-
-
-===grep, sed, awk, regular expressions===
+===Grep, sed, awk, regular expressions===
 
 ==Networking==
 
@@ -534,7 +532,25 @@ Open the remote computer's browser on your own local screen
 
 PS: you might have to configure X support, ask a local technicial or Google.
 
-Public key (passwordless) authentication (cf. [https://help.github.com/articles/generating-ssh-keys/])
+Control the remote screen by opening the browser in ''its'' screen, which usually referred to with an ID of <tt>:0</tt>.
+<syntaxhighlight lang="bash">
+   export DISPLAY=:0                  # on the remote computer
+   firefox
+</syntaxhighlight>
+For fun: you can also control the remote terminal, in case there is any one open
+<syntaxhighlight lang="bash">
+   ls /dev/pts
+
+   # you get a list of numbers. test in each of them:
+   
+   echo hello /dev/pts/1
+   echo hello /dev/pts/2
+   echo hello /dev/pts/3   # bingo! the user on this remote host is using terminal 3 and received our message
+</syntaxhighlight>
+You will understand how this works later, but UPE is the best place to get a hold of whats going on.
+
+
+====Public key (passwordless) authentication ====
 
 Generate a public key
 <syntaxhighlight lang="bash">
@@ -554,6 +570,7 @@ Test it by communicatibg between two machines: machine 1 (eg, the one where you 
  scp ~/.ssh/id_rsa.pub maquina2:.ssh/
 </syntaxhighlight>
 
+See also the Github article on ssh keys [https://help.github.com/articles/generating-ssh-keys/].
 
 ===Basics===
 
