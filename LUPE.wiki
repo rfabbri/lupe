@@ -218,7 +218,7 @@ They can be found at [http://funcoeszz.net funcoeszz.net]. I personally use:
  zzarrumanome *
       RAMONES - I Don't Care.mp3 -> ramones-i_dont_care.mp3
       Toy Dolls - Wakey, Wakey!.mp3 -> toy_dolls-wakey_wakey.mp3
-* <tt>zztradutor<tt>
+* <tt>zztradutor</tt>
 <syntaxhighlight lang="bash">
  zztradutor pt-de livro                # Buch
 </syntaxhighlight>
@@ -345,7 +345,80 @@ simply prints 1 to 3. We can use seq's output as a string by enclosing it in bac
 Since we know that the shell will break this string at blanks, in case its content were used as part of a commandline. Thus, we just give it to the for loop. 
 
 
+==Processes and Jobs==
+
+Running a program interactively normally blocks further input
+ command
+ # input is blocked
+Type <tt>Control-C</tt> to stop the process in case it is still running.
+If the process is waiting for input, type <tt>Control-D</tt> to signal end of
+input (end of file) and exit.
+
+Run a command in the background ("in parallel")
+ command &                       # the ampersand & is like "run command and (&) whatever I type next"
+
+Bring it back to foreground
+ fg
+then background 
+<syntaxhighlight lang="bash">
+ # type Control-Z
+ bg
+</syntaxhighlight>
+
+Run multiple commands in the background ("in parallel")
+<syntaxhighlight lang="bash">
+ command1 & 
+ command2 & 
+ command3 & 
+</syntaxhighlight>
+
+List the running jobs spawned by the current shell
+ jobs
+
+Each job has a job id and each process has a process id.
+Make job number 2 foreground, then background again:
+ fg 2
+ bg
+
+Stop command2 by name
+ killall command2
+
+Look into all running processes and respective resources
+ top
+
+List all running processes with pids
+ ps -A
+
+List all running processes named <tt>command3</tt>
+<syntaxhighlight lang="bash">
+ ps -A | grep command3
+</syntaxhighlight>
+
+List jobs by pid
+<syntaxhighlight lang="bash">
+ jobs -p         # outputs PID 2143
+</syntaxhighlight>
+
+Force kill
+ kill 2143
+
+Wait for all jobs to finish
+ wait
+
+Keep running program on the computer even after you log out:
+<syntaxhighlight lang="bash">
+ nohup command &
+                        #OR
+ nohup ls -lR / &
+</syntaxhighlight>
+
+When you log back in (say, via ssh), there will be a file called
+<tt>nohup.out</tt> with the output of the process.
+
+You can also use GNU screen for persistent terminal sessions.
+
 ==Networking==
+
 
 ===SSH===
 
@@ -394,20 +467,33 @@ PS: you might have to configure X support, ask a local technicial or Google.
 Public key (passwordless) authentication (cf. [https://help.github.com/articles/generating-ssh-keys/])
 
 Generate a public key
+<syntaxhighlight lang="bash">
  ssh-keygen -t rsa -C "your_email@example.com"
+</syntaxhighlight>
 
 Add the key to your ssh-agent so you don't have to type  the password all the time
+<syntaxhighlight lang="bash">
  # start the ssh-agent in the background
  eval "$(ssh-agent -s)"
  ssh-add ~/.ssh/id_rsa
+</syntaxhighlight>
 
 Test it by communicatibg between two machines: machine 1 (eg, the one where you generated the key, the 'local' machine) ssh-''ing'' into machine 2 (a 'remote' machine).
 
+<syntaxhighlight lang="bash">
  scp ~/.ssh/id_rsa.pub maquina2:.ssh/
+</syntaxhighlight>
 
+
+===Basics===
+
+Discover other hosts on your LAN 
+
+ ping -b 10.0.0.0             # broadcast Ping on your local network address
 
 ==Links==
 
+* Download the sourcecode of this tutorial at github.com/rfabbri/lupe
 * [[Lista de Comandos Básicos GNU/Linux]]
 
 
