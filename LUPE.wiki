@@ -370,10 +370,10 @@ and you want to play a random Sonata album:
  
  # play a random sonata album
 
- mplayer "`ls | grep Sonatas | gshuf -n 1`"/*  &                                # you can use vlc or whatever player instead of mplayer
+ mplayer "`ls | grep Sonatas | shuf -n 1`"/*  &                # you can use vlc or whatever player instead of mplayer
 </syntaxhighlight>
 
-Try breaking down the above command to see what its made of. Here, <tt>gshuf -n 1</tt> just randomly shuffles the lines in its input and ouputs 1 line.
+Try breaking down the above command to see what its made of. Here, <tt>shuf</tt> (or gshuf in [[OSX]]) just randomly shuffles the lines in its input and ouputs 1 requested line.
 Note how we had to use both " and ` quotes to get this to work with filenames having spaces in them.
 
 
