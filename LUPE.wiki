@@ -310,12 +310,14 @@ These shell expansions are most used with variables. Lets test this behavior:
 
 This illustrates $a which expands the variable a - you can think of <tt>$</tt> as an S for "substitute in here the contents of what follows".
 
-And what is that weird backward <tt>`</tt> quote for? ''It executes the string that is inside as a shell command and stores the ouput as a single string''. You can think of it as "the output of", and it is extremely useful. Try it out:
+'''And what is that weird backward''' <tt>`</tt> '''quote for?''' ''It executes the string that is inside as a shell command and stores the ouput as a single string''. You can think of it as "the output of", and it is extremely useful. Try it out:
 <syntaxhighlight lang="bash">
   seq 1 10
   numbers=`seq 1 10`
   echo $numbers         # numbers == "1 2 3 4 5 6 7 8 9 10"
   numbers="seq 1 10"    # numbers == "seq 1 10"   literally
+  echo $numbers
+  numbers=$(seq 1 10)   # you can use $( ) instead of ` `
   echo $numbers
 </syntaxhighlight>
 
