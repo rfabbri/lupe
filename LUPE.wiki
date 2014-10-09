@@ -100,7 +100,7 @@ Your history is located in your home directory, which can be referred to by <tt>
 
 On many setups this will contain the history up to a previous session. The current history is usually not stored in ~/.history until the session is over.
 
-===Further Basics===
+===Further basics===
 
 Pressing Control-C usually aborts any command that is running interactively through the shell.
 Other commands that are not blocking the shell can be ended using <tt>kill</tt> and <tt>killall</tt>:
@@ -206,7 +206,7 @@ More useful commands are available at [[Utils|Utils-Macambira]].
 ===Useful script collections===
 
 
-====Our Utilitiess====
+====Our utilitiess====
 Our personal scripts in current use and actual config files used for editing,
 programming, and daily use is available at [[Utils|Utils-Macambira]].
 
@@ -224,7 +224,7 @@ They can be found at [http://funcoeszz.net funcoeszz.net]. I personally use:
 </syntaxhighlight>
 
 
-===Configuring Bash for Programming===
+===Configuring Bash for programming===
 
 The following are most useful BASH configuration files
   ~/.bashrc
@@ -270,7 +270,7 @@ You should use the <tt>cx</tt> shortcut given in UPE for making things more simp
 You can get our actual working versions of <tt>cx</tt> and other utilities suggested by UPE at
 [[Utils]] (''do'' peek at the source code!).
 
-==Understanding the Bourne Shell==
+==Understanding the Bourne shell==
 Think about the internal C implementation model for commands. The commands's <tt>main()</tt> function sees its arguments through <tt>argv</tt> - the entire argument line broken into a number of strings. It is the shell that breaks the entire command string as in
   "echo hello, world"      --- sh --->      "echo" "hello," "world"
 into distinct components.  Understanding this process is key to understanding how the shell works,
@@ -390,6 +390,20 @@ Open the remote computer's browser on your own local screen
 </syntaxhighlight>
 
 PS: you might have to configure X support, ask a local technicial or Google.
+
+Public key (passwordless) authentication (cf. [https://help.github.com/articles/generating-ssh-keys/])
+
+Generate a public key
+ ssh-keygen -t rsa -C "your_email@example.com"
+
+Add the key to your ssh-agent so you don't have to type  the password all the time
+ # start the ssh-agent in the background
+ eval "$(ssh-agent -s)"
+ ssh-add ~/.ssh/id_rsa
+
+Test it by communicatibg between two machines: machine 1 (eg, the one where you generated the key, the 'local' machine) ssh-''ing'' into machine 2 (a 'remote' machine).
+
+ scp ~/.ssh/id_rsa.pub maquina2:.ssh/
 
 
 ==Links==
