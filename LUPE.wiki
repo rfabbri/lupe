@@ -469,6 +469,21 @@ While <tt>find</tt> normally uses file regex or wildcards, <tt>locate</tt> is ea
  locate -r '\.cpp$' | xargs grep '\<UpDirection\>'
 </syntaxhighlight>
 
+I use an lsc script with all that inside
+<syntaxhighlight lang="bash">
+ lsc -r                 # lists all source files recursively (*.c *.java *.cxx *.cpp *.php..)
+ lsc -r | grep scilab | xargs grep --color '\<k\>'       # lists all source files with
+                                                         # scilab in the filename having the variable / token k
+</syntaxhighlight>
+
+One of the best options for <tt>grep</tt> in the context of code searching is <tt>'--color'</tt> as used above.
+You can also set it by default by including the following in your <tt>~/.bashrc</tt>
+<syntaxhighlight lang="bash">
+ export GREP_OPTIONS='--color=auto'                      # inside your .bashrc
+</syntaxhighlight>
+More about <tt>grep</tt> in the following subsection.
+
+
 
 ===grep, sed, awk, regular expressions===
 
