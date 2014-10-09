@@ -349,20 +349,13 @@ Since we know that the shell will break this string at blanks, in case its conte
 Supose you have a collection of Beethoven's music in a folder,
 and you want to play a random Sonata album:
 
+<syntaxhighlight lang="bash">
  cd 'music/classical/Ludwig van Beethoven - Complete Works [Brilliant Classics 100 CD Box]'
  ls
   CD 001 - Symphonies Nos.1&3                                   CD 053 - Piano Sonatas Op.109, Op.110, Op.111
   CD 002 - Symphonies Nos.2&7                                   CD 054 - Piano Variations I
   CD 003 - Symphonies Nos.6&8                                   CD 055 - Piano Variations II
   ...
-  CD 014 - Dances II                                            CD 066 - Die Geschopfe des Prometheus, Ballet Music Op.43
-  CD 015 - Music for Wind Ensemble I                            CD 067 - Die Ruinen von Athen, Konig Stephan
-  CD 016 - Music for Wind Ensemble II                           CD 068 - Arias
-  CD 017 - Chamber Music for Flute I                            CD 069 - Cantatas WoO 87 & 88
-  CD 018 - Chamber Music for Flute II                           CD 070 - Der Glorreiche Augenblick Op.136
-  ...
-  CD 028 - Cello Sonatas I                                      CD 080 - Irish songs WoO 152 & 153, selection
-  CD 029 - Cello Sonatas II                                     CD 081 - 12 Irish songs WoO 154 complete
   CD 030 - Violin Sonatas I                                     CD 082 - 26 Welsh Songs WoO 155 complete
   CD 031 - Violin Sonatas II                                    CD 083 - Scottish Songs WoO 156 & 157, complete
   CD 032 - Violin Sonatas III                                   CD 084 - Scottish Songs Op. 108 & WoO 158-1
@@ -374,15 +367,14 @@ and you want to play a random Sonata album:
   CD 038 - String Quartets Op.59 Nos.1&2                        CD 090 - Violin Concerto Op.61, Romances for Violin & Orchestra Nos.1&2
   CD 039 - String Quartets Op.74 & Op.131                       CD 091 - Piano Sonatas Op.13, 27, 57 - Yves NAT
   ...
-
  
  # play a random sonata album
- 
+
  mplayer "`ls | grep Sonatas | gshuf -n 1`"/*  &                                # you can use vlc or whatever player instead of mplayer
+</syntaxhighlight>
 
 Try breaking down the above command to see what its made of. Here, <tt>gshuf -n 1</tt> just randomly shuffles the lines in its input and ouputs 1 line.
 Note how we had to use both " and ` quotes to get this to work with filenames having spaces in them.
-
 
 
 ==Processes and Jobs==
