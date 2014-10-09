@@ -347,16 +347,14 @@ Since we know that the shell will break this string at blanks, in case its conte
 ===Practicing Quotes===
 
 Supose you have a collection of Beethoven's music in a folder,
-and you want to play a random Sonata album:
+and you want to play a random piano sonata album but no concerto:
 
 <syntaxhighlight lang="bash">
  cd 'music/classical/Ludwig van Beethoven - Complete Works [Brilliant Classics 100 CD Box]'
  ls
   CD 001 - Symphonies Nos.1&3                                   CD 053 - Piano Sonatas Op.109, Op.110, Op.111
   CD 002 - Symphonies Nos.2&7                                   CD 054 - Piano Variations I
-  CD 003 - Symphonies Nos.6&8                                   CD 055 - Piano Variations II
   ...
-  CD 030 - Violin Sonatas I                                     CD 082 - 26 Welsh Songs WoO 155 complete
   CD 031 - Violin Sonatas II                                    CD 083 - Scottish Songs WoO 156 & 157, complete
   CD 032 - Violin Sonatas III                                   CD 084 - Scottish Songs Op. 108 & WoO 158-1
   CD 033 - String Trios I                                       CD 085 - Folksongs WoO 158 a b c
@@ -370,7 +368,7 @@ and you want to play a random Sonata album:
  
  # play a random sonata album
 
- mplayer "`ls | grep Sonatas | shuf -n 1`"/*  &                # you can use vlc or whatever player instead of mplayer
+ mplayer "`ls | grep -i Sonatas | grep -i Piano | grep -v Concerto | shuf -n 1`"/*  &      # vlc is a good alternative to mplayer
 </syntaxhighlight>
 
 Try breaking down the above command to see what its made of. Here, <tt>shuf</tt> (or gshuf in [[OSX]]) just randomly shuffles the lines in its input and ouputs 1 requested line.
