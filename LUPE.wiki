@@ -515,6 +515,13 @@ You can also set it by default by including the following in your <tt>~/.bashrc<
 More about <tt>grep</tt> in the following subsection.
 
 ===Grep, sed, awk, regular expressions===
+===Misc. utilities===
+* Convert decimal to hex
+ bc           # start the calculator language interpreter
+ ibase=10
+ obase=16
+ 40           # output: 28
+See also [http://linuxcommando.blogspot.com.br/2008/04/quick-hex-decimal-conversion-using-cli.html].
 
 ==Networking==
 
@@ -554,6 +561,11 @@ Automated transfer session with <tt>sftp</tt>
  bye
  END
 </syntaxhighlight>
+
+Recursively copy an entire file tree to the remote host, incrementally
+ rsync -avz folder 10.0.0.60:
+
+If this transfer is aborted, you can restart it and it will transfer only the remaining (the differences). The "z" parameter is to compress prior to transferring. You can omit it for fast networks. Rsync very useful for backups.
 
 Open the remote computer's browser on your own local screen
 <syntaxhighlight lang="bash">
@@ -619,4 +631,4 @@ Discover other hosts on your LAN
 
 
 
-[[Category:Lab Macambira]] [[Category:Linux]] [[Category:IPRJ]] 
+[[Category:Lab Macambira]] [[Category:Linux]] [[Category:IPRJ]]
